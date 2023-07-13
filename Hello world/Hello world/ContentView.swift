@@ -48,21 +48,24 @@ struct ModuleDetail: View {
     let module: Module
 
     var body: some View {
-        VStack {
-            Text("Module Details")
-                .font(.title)
-                .padding()
-
-            Text("Name: \(module.name)")
-                .font(.headline)
-                .padding()
+        HStack {
             Spacer()
-                VStack {
-                    Model3D(named: "Scene", bundle: realityKitContentBundle)
-                            .padding(.bottom, 50)
-                }
-                .navigationTitle("Content")
-                .padding()
+            VStack {
+                Text("Module Details")
+                    .font(.title)
+                    .padding()
+                
+                Text("Name: \(module.name)")
+                    .font(.headline)
+                    .padding()
+            }
+            Spacer()
+            VStack {
+                Model3D(named: "Scene", bundle: realityKitContentBundle)
+                    .padding(.bottom, 50)
+            }
+            .padding()
+            Spacer()
         }
     }
 }
