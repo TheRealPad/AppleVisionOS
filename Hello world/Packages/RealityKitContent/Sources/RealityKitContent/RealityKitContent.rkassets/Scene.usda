@@ -55,5 +55,25 @@ def Xform "Root"
         float3 xformOp:scale = (1, 1, 1)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
+
+    def Material "Material"
+    {
+        prepend token outputs:mtlx:surface.connect = </Root/Material/MaterialXPreviewSurface.outputs:out>
+        token outputs:realitykit:vertex
+        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (358.25, 99.5)
+        float2 ui:nodegraph:realitykit:subgraphOutputs:size = (181.5, 99)
+
+        def Shader "MaterialXPreviewSurface"
+        {
+            uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+            color3f inputs:diffuseColor = (0.46135616, 0.14021105, 0.19598414) (
+                colorSpace = "Input - Texture - sRGB - Display P3"
+            )
+            token outputs:out
+            float2 ui:nodegraph:node:pos = (103.75, 99.5)
+            float2 ui:nodegraph:node:size = (207.5, 199)
+            int ui:nodegraph:node:stackingOrder = 1
+        }
+    }
 }
 
