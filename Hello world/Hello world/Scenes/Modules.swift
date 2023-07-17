@@ -10,19 +10,28 @@ import RealityKit
 import RealityKitContent
 
 struct Modules: View {
+    @Environment(ViewModel.self) private var model
     @State private var isMainScreen = true
     
     var body: some View {
+        @Bindable var model = model
+        
         VStack {
-            NavigationStack {
+            NavigationStack(path: $model.navigationPath) {
                 VStack {
                     Image("SunSliver")
                     Spacer(minLength: 120)
                     Title()
                     Navigation()
                         .navigationDestination(for: Module.self) { module in
-                            EarthPage(module: module)
-                                .navigationTitle(module.eyebrow)
+                            switch module {
+                            case .globe: EarthPage(module: module)
+                                    .navigationTitle(module.eyebrow)
+                            case .orbit: OrbitPage(module: module)
+                                    .navigationTitle(module.eyebrow)
+                            case .solar: SolarSystemPage(module: module)
+                                    .navigationTitle(module.eyebrow)
+                            }
                         }
                         .padding(.bottom, 50)
                 }

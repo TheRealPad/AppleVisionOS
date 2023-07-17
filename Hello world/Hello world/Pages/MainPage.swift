@@ -44,4 +44,6 @@ struct Title: View {
 
 #Preview {
     Title()
+        .padding()
+        .glassBackgroundEffect()
 }
