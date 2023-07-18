@@ -13,6 +13,7 @@ import WorldAssets
 
 struct EarthPage: View {
     let module: Module
+    @Environment(ViewModel.self) private var model
     @State var displayWindow = false
     
     @Environment(\.openWindow) private var openWindow
@@ -22,6 +23,8 @@ struct EarthPage: View {
         HStack {
             Description(module: module)
             Earth()
+                .environment(model)
+                .padding()
         }
     }
 }
@@ -38,7 +41,7 @@ private struct Earth: View {
 }
 
 #Preview {
-    EarthPage(module: Module.globe)
+    EarthPage(module: Module.globe).environment(ViewModel())
         .padding()
         .glassBackgroundEffect()
 

@@ -1,11 +1,10 @@
 //
-//  EarthEntity.swift
+//  EarthEnity.swift
 //  Hello world
 //
 //  Created by Pierre-Alexandre Delgado on 17/07/2023.
 //
 
-import Foundation
 import RealityKit
 import SwiftUI
 import WorldAssets
@@ -215,3 +214,4 @@ class EarthEntity: Entity {
         return simd_quatf(angle: Float(tiltAngle.radians), axis: tiltAxis)
     }
 }
+

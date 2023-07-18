@@ -10,18 +10,19 @@ import SwiftUI
 
 struct Description: View {
     let module: Module
-    @State var displayWindow = false
+    @Environment(ViewModel.self) private var model
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
     
     var body: some View {
+        @Bindable var model = model
         VStack(alignment: .leading) {
             Text(module.heading)
                 .font(.headline)
             Text(module.overview)
                 .font(.subheadline).padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-            Toggle(module.callToAction, isOn: $displayWindow)
-                .onChange(of: displayWindow) { wasShowing, isShowing in
+            Toggle(module.callToAction, isOn: $model.isShowingGlobe)
+                .onChange(of: model.isShowingGlobe) { wasShowing, isShowing in
                                 if isShowing {
                                     openWindow(id: Module.globe.name)
                                 } else {
@@ -34,7 +35,7 @@ struct Description: View {
 }
 
 #Preview {
-    Description(module: Module.globe)
+    Description(module: Module.globe).environment(ViewModel())
         .padding()
         .glassBackgroundEffect()
 }

@@ -11,12 +11,17 @@ import RealityKitContent
 
 struct Modules: View {
     @Environment(ViewModel.self) private var model
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     @State private var isMainScreen = true
     
     var body: some View {
         @Bindable var model = model
         
         VStack {
+            SolarSystemControls(module: Module.solar).opacity(model.isShowingSolar ? 1 : 0)
             NavigationStack(path: $model.navigationPath) {
                 VStack {
                     Image("SunSliver")
@@ -41,6 +46,33 @@ struct Modules: View {
                         .alignmentGuide(.earthGuide) { context in
                             context[VerticalAlignment.top] - 100
                         }
+                }
+            }
+            .opacity(model.isShowingSolar ? 0 : 1)
+            
+        }
+        .animation(.default, value: model.isShowingSolar)
+        .onChange(of: model.navigationPath) { _, path in
+            if path.isEmpty {
+                if model.isShowingGlobe {
+                    dismissWindow(id: Module.globe.name)
+                    model.isShowingGlobe = false
+                }
+                if model.isShowingOrbit || model.isShowingSolar {
+                    Task {
+                        await dismissImmersiveSpace()
+                        model.isShowingOrbit = false
+                        model.isShowingSolar = false
+                    }
+                }
+            }
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if model.isShowingSolar && newPhase == .background {
+                Task {
+                    await dismissImmersiveSpace()
+                    model.isShowingSolar = false
+                    openWindow(id: "modules")
                 }
             }
         }
